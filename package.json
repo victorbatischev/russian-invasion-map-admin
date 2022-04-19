@@ -2,7 +2,7 @@
   "name": "russian-invasion-map-admin",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://victorbatischev.github.io/map-admin",
+  "homepage": "https://victorbatischev.github.io/russian-invasion-map-admin/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.4",
