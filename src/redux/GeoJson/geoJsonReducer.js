@@ -1,8 +1,8 @@
-import { referenceDate} from '../../Constants'
-import { SET_DATE, SET_GEO_JSON} from './geoJsonConsts'
+import { nowDate } from '../../Constants'
+import { SET_DATE, SET_GEO_JSON } from './geoJsonConsts'
 
 let initialState = {
-  selectedDate: referenceDate,
+  selectedDate: nowDate,
   storeGeoJson: []
 }
 
