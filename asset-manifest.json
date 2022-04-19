@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/map-admin/static/css/main.007595c1.css",
-    "main.js": "/map-admin/static/js/main.4f5dc75b.js",
-    "index.html": "/map-admin/index.html",
-    "main.007595c1.css.map": "/map-admin/static/css/main.007595c1.css.map",
-    "main.4f5dc75b.js.map": "/map-admin/static/js/main.4f5dc75b.js.map"
+    "main.css": "/russian-invasion-map-admin/static/css/main.007595c1.css",
+    "main.js": "/russian-invasion-map-admin/static/js/main.4f5dc75b.js",
+    "index.html": "/russian-invasion-map-admin/index.html",
+    "main.007595c1.css.map": "/russian-invasion-map-admin/static/css/main.007595c1.css.map",
+    "main.4f5dc75b.js.map": "/russian-invasion-map-admin/static/js/main.4f5dc75b.js.map"
   },
   "entrypoints": [
     "static/css/main.007595c1.css",
