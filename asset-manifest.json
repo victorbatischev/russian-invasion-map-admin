@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/victorbatischev.github.io/map-admin/static/css/main.007595c1.css",
+    "main.js": "/victorbatischev.github.io/map-admin/static/js/main.f742abc9.js",
+    "index.html": "/victorbatischev.github.io/map-admin/index.html",
+    "main.007595c1.css.map": "/victorbatischev.github.io/map-admin/static/css/main.007595c1.css.map",
+    "main.f742abc9.js.map": "/victorbatischev.github.io/map-admin/static/js/main.f742abc9.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.007595c1.css",
+    "static/js/main.f742abc9.js"
+  ]
+}
