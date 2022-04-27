@@ -2,11 +2,11 @@
   "name": "russian-invasion-map-admin",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://victorbatischev.github.io/russian-invasion-map-admin/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
+    "axios": "^0.27.1",
     "leaflet": "^1.7.1",
     "leaflet-draw": "^1.0.4",
     "leaflet-fullscreen": "^1.0.2",
@@ -15,10 +15,12 @@
     "react-leaflet": "^3.2.5",
     "react-leaflet-draw": "^0.19.8",
     "react-leaflet-fullscreen": "^2.0.2",
+    "react-player-controls": "^1.1.0",
     "react-redux": "^7.2.8",
     "react-scripts": "5.0.0",
     "redux": "^4.1.2",
     "redux-persist": "^6.0.0",
+    "redux-thunk": "^2.4.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

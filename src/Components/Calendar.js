@@ -1,12 +1,15 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { setDate } from '../redux/GeoJson/geoJsonAction'
+import {useLocalStorage} from "../hooks/useLocalStorage";
+import {nowDate} from "../Constants";
 
-export const Calendar = () => {
-  const date = useSelector((state) => state.geoJson.selectedDate)
-  const dispatch = useDispatch()
 
-  const onChange = (e) => dispatch(setDate(e.target.value))
+
+export const Calendar = ({date, setDate}) => {
+
+
+
+  const onChange = (e) => setDate(e.target.value)
 
   return (
     <div style={{ padding: 10 }}>

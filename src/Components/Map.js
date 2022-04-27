@@ -1,19 +1,19 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import {
   TileLayer,
   FeatureGroup,
   LayersControl,
   MapContainer
 } from 'react-leaflet'
-import { useDispatch, useSelector } from 'react-redux'
-
+import { useDispatch, useSelector} from 'react-redux'
 import L from 'leaflet'
 import { EditControl } from 'react-leaflet-draw'
-import { setGeoJson } from '../redux/GeoJson/geoJsonAction'
-import { filteredDataOnDate } from '../redux/GeoJson/geoJsonSelectors'
+import {getActualGeoJson, setDataGeoJson} from '../redux/GeoJson/geoJsonAction'
+import {filteredDataOnDate} from '../redux/GeoJson/geoJsonSelectors'
 import { mapCenter } from '../Constants'
 
-export const Map = () => {
+
+export const Map = ({selectedDate}) => {
   let _editableFG = null
   const geojsonData = useSelector(filteredDataOnDate)
   const dispatch = useDispatch()
@@ -23,8 +23,8 @@ export const Map = () => {
     e.layers.eachLayer((layer) => {
       numEdited += 1
     })
-    console.log(`onEdited: edited ${numEdited} layers`, e)
-
+    console.log(`onEdited: edited ${selectedDate} layers`, e)
+    console.log(selectedDate, "564564564564")
     _onChange()
   }
 
@@ -70,8 +70,8 @@ export const Map = () => {
   }
 
   const _onFeatureGroupReady = (reactFGref) => {
-    console.log('load', geojsonData)
-    let leafletGeoJSON = new L.GeoJSON(geojsonData)
+    console.log('load', geojsonData ? JSON.parse(geojsonData) : null)
+    let leafletGeoJSON = new L.GeoJSON(  geojsonData ? JSON.parse(geojsonData) : null)
 
     let leafletFG = reactFGref
 
@@ -92,10 +92,15 @@ export const Map = () => {
 
   const _onChange = () => {
     const geojsonData = _editableFG.toGeoJSON()
-
     console.log('geoJson', geojsonData)
-    dispatch(setGeoJson(geojsonData))
+    dispatch(setDataGeoJson(JSON.parse(localStorage.getItem('selectedDate')), JSON.stringify(geojsonData)))
   }
+
+  useEffect(()=>{
+    dispatch(getActualGeoJson(selectedDate))
+  }, [selectedDate])
+
+  console.log('render map', selectedDate)
 
   return (
     <MapContainer className={'map'} center={mapCenter} zoom={6}>
@@ -135,6 +140,7 @@ export const Map = () => {
           draw={{ rectangle: true }}
         />
       </FeatureGroup>
+
     </MapContainer>
   )
 }

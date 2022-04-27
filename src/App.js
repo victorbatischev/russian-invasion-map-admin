@@ -1,13 +1,16 @@
 import React from 'react'
-
 import { Map } from './Components/Map'
 import { Calendar } from './Components/Calendar'
+import {useLocalStorage} from "./hooks/useLocalStorage";
+import {nowDate} from "./Constants";
+
 
 const App = () => {
-  return (
+   const [date, setDate] = useLocalStorage('selectedDate', nowDate)
+   return (
     <div className={'App'}>
-      <Map />
-      <Calendar />
+      <Map selectedDate={date} />
+      <Calendar date={date} setDate={setDate} />
     </div>
   )
 }
