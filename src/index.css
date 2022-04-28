@@ -37,8 +37,8 @@ code {
 }
 
 .map {
-  width: 70vw;
-  height: 75vh;
+  width: 100vw;
+  height: 100vh;
 }
 
 .leaflet-touch .leaflet-control-layers-toggle {
