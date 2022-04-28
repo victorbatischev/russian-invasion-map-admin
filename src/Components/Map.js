@@ -1,19 +1,21 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   TileLayer,
   FeatureGroup,
   LayersControl,
   MapContainer
 } from 'react-leaflet'
-import { useDispatch, useSelector} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import L from 'leaflet'
 import { EditControl } from 'react-leaflet-draw'
-import {getActualGeoJson, setDataGeoJson} from '../redux/GeoJson/geoJsonAction'
-import {filteredDataOnDate} from '../redux/GeoJson/geoJsonSelectors'
+import {
+  getActualGeoJson,
+  setDataGeoJson
+} from '../redux/GeoJson/geoJsonAction'
+import { filteredDataOnDate } from '../redux/GeoJson/geoJsonSelectors'
 import { mapCenter } from '../Constants'
 
-
-export const Map = ({selectedDate}) => {
+export const Map = ({ selectedDate }) => {
   let _editableFG = null
   const geojsonData = useSelector(filteredDataOnDate)
   const dispatch = useDispatch()
@@ -24,7 +26,7 @@ export const Map = ({selectedDate}) => {
       numEdited += 1
     })
     console.log(`onEdited: edited ${selectedDate} layers`, e)
-    console.log(selectedDate, "564564564564")
+    console.log(selectedDate, '564564564564')
     _onChange()
   }
 
@@ -71,7 +73,9 @@ export const Map = ({selectedDate}) => {
 
   const _onFeatureGroupReady = (reactFGref) => {
     console.log('load', geojsonData ? JSON.parse(geojsonData) : null)
-    let leafletGeoJSON = new L.GeoJSON(  geojsonData ? JSON.parse(geojsonData) : null)
+    let leafletGeoJSON = new L.GeoJSON(
+      geojsonData ? JSON.parse(geojsonData) : null
+    )
 
     let leafletFG = reactFGref
 
@@ -93,10 +97,15 @@ export const Map = ({selectedDate}) => {
   const _onChange = () => {
     const geojsonData = _editableFG.toGeoJSON()
     console.log('geoJson', geojsonData)
-    dispatch(setDataGeoJson(JSON.parse(localStorage.getItem('selectedDate')), JSON.stringify(geojsonData)))
+    dispatch(
+      setDataGeoJson(
+        JSON.parse(localStorage.getItem('selectedDate')),
+        JSON.stringify(geojsonData)
+      )
+    )
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(getActualGeoJson(selectedDate))
   }, [selectedDate])
 
@@ -140,7 +149,6 @@ export const Map = ({selectedDate}) => {
           draw={{ rectangle: true }}
         />
       </FeatureGroup>
-
     </MapContainer>
   )
 }
