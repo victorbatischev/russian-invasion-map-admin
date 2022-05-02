@@ -17,7 +17,7 @@ export const getActualGeoJson = (date) => async (dispatch) => {
   }
 }
 
-export const setDataGeoJson = (date, json_data) => async (dispatch) => {
+export const setDataGeoJson = (date, json_data) => async () => {
   try {
     await axios.post(`${process.env.REACT_APP_API_URL}/map/set-data/`, {
       date: date,

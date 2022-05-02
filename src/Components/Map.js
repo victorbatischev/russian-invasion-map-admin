@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import {
   TileLayer,
   FeatureGroup,
@@ -8,6 +8,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux'
 import L from 'leaflet'
 import { EditControl } from 'react-leaflet-draw'
+
 import {
   getActualGeoJson,
   setDataGeoJson
@@ -22,23 +23,29 @@ export const Map = ({ selectedDate }) => {
 
   const _onEdited = (e) => {
     let numEdited = 0
+    console.log(e.layers)
     e.layers.eachLayer((layer) => {
+      console.log(layer)
       numEdited += 1
     })
-    console.log(`onEdited: edited ${selectedDate} layers`, e)
-    console.log(selectedDate, '564564564564')
-    _onChange()
+    console.log(`onEdited: edited ${numEdited} layers`, e)
+
+    _onChange('edited')
   }
 
   const _onCreated = (e) => {
+    console.log(e)
+
+    // polyline, polygon, rectangle, circle (???), marker, circlemarker (???)
     let type = e.layerType
+
     if (type === 'marker') {
       console.log('_onCreated: marker created', e)
     } else {
       console.log('_onCreated: something else created:', type, e)
     }
 
-    _onChange()
+    _onChange('created')
   }
 
   const _onDeleted = (e) => {
@@ -48,7 +55,7 @@ export const Map = ({ selectedDate }) => {
     })
     console.log(`onDeleted: removed ${numDeleted} layers`, e)
 
-    _onChange()
+    _onChange('deleted')
   }
 
   const _onMounted = (drawControl) => {
@@ -94,7 +101,9 @@ export const Map = ({ selectedDate }) => {
     _editableFG = reactFGref
   }
 
-  const _onChange = () => {
+  const _onChange = (type) => {
+    console.log(type)
+
     const geojsonData = _editableFG.toGeoJSON()
     console.log('geoJson', geojsonData)
     dispatch(
@@ -108,8 +117,6 @@ export const Map = ({ selectedDate }) => {
   useEffect(() => {
     dispatch(getActualGeoJson(selectedDate))
   }, [selectedDate])
-
-  console.log('render map', selectedDate)
 
   return (
     <MapContainer className={'map'} center={mapCenter} zoom={6}>
@@ -135,7 +142,10 @@ export const Map = ({ selectedDate }) => {
           />
         </LayersControl.BaseLayer>
       </LayersControl>
-      <FeatureGroup ref={(item) => _onFeatureGroupReady(item)}>
+      <FeatureGroup
+        ref={(item) => _onFeatureGroupReady(item)}
+        // pathOptions={{ color: 'red' }}
+      >
         <EditControl
           position='topleft'
           onEdited={_onEdited}
