@@ -33,7 +33,7 @@ code {
 }
 
 .leaflet-draw-actions {
-  padding-right: 2px;
+  padding-left: 1.5px;
 }
 
 .map {
@@ -48,4 +48,9 @@ code {
 
 .leaflet-retina .leaflet-control-layers-toggle {
   background-size: 20px 20px;
+}
+
+.leaflet-div-icon {
+  background: transparent;
+  border: none;
 }

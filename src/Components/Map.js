@@ -6,8 +6,9 @@ import {
   MapContainer
 } from 'react-leaflet'
 import { useDispatch, useSelector } from 'react-redux'
-import L from 'leaflet'
+import L, { divIcon } from 'leaflet'
 import { EditControl } from 'react-leaflet-draw'
+import { renderToStaticMarkup } from 'react-dom/server'
 
 import {
   getActualGeoJson,
@@ -16,18 +17,20 @@ import {
 import { filteredDataOnDate } from '../redux/GeoJson/geoJsonSelectors'
 import { mapCenter } from '../Constants'
 
-export const Map = ({ selectedDate }) => {
+export const Map = ({ selectedDate, selectedColor }) => {
   let _editableFG = null
   const geojsonData = useSelector(filteredDataOnDate)
   const dispatch = useDispatch()
 
   const _onEdited = (e) => {
     let numEdited = 0
-    console.log(e.layers)
+
     e.layers.eachLayer((layer) => {
+      // сохраняем индексы редактированных слоёв для добавления свойств
       console.log(layer)
       numEdited += 1
     })
+
     console.log(`onEdited: edited ${numEdited} layers`, e)
 
     _onChange('edited')
@@ -36,7 +39,7 @@ export const Map = ({ selectedDate }) => {
   const _onCreated = (e) => {
     console.log(e)
 
-    // polyline, polygon, rectangle, circle (???), marker, circlemarker (???)
+    // polyline, polygon, rectangle, circle (???), marker
     let type = e.layerType
 
     if (type === 'marker') {
@@ -50,7 +53,7 @@ export const Map = ({ selectedDate }) => {
 
   const _onDeleted = (e) => {
     let numDeleted = 0
-    e.layers.eachLayer((layer) => {
+    e.layers.eachLayer(() => {
       numDeleted += 1
     })
     console.log(`onDeleted: removed ${numDeleted} layers`, e)
@@ -95,17 +98,26 @@ export const Map = ({ selectedDate }) => {
     _editableFG.clearLayers()
 
     leafletGeoJSON.eachLayer((layer) => {
+      // добавить стилизацию слоёв в GeoJSON
+      console.log(layer.options)
       leafletFG.addLayer(layer)
     })
 
     _editableFG = reactFGref
   }
 
+  // этот метод вызывается после любого изменения данных
   const _onChange = (type) => {
+    // получаем тип события
     console.log(type)
 
+    // получаем последние данные
     const geojsonData = _editableFG.toGeoJSON()
     console.log('geoJson', geojsonData)
+
+    // редактируем их в соответствии с выбранными настройками
+
+    // сохраняем измененные данные
     dispatch(
       setDataGeoJson(
         JSON.parse(localStorage.getItem('selectedDate')),
@@ -115,6 +127,7 @@ export const Map = ({ selectedDate }) => {
   }
 
   useEffect(() => {
+    // при монтировании компонента, запрашиваем данные за выбранную дату
     dispatch(getActualGeoJson(selectedDate))
   }, [selectedDate])
 
@@ -156,7 +169,28 @@ export const Map = ({ selectedDate }) => {
           onEditStop={_onEditStop}
           onDeleteStart={_onDeleteStart}
           onDeleteStop={_onDeleteStop}
-          draw={{ rectangle: true }}
+          draw={{
+            polyline: { shapeOptions: { color: selectedColor } },
+            polygon: {
+              showArea: true,
+              showLength: true,
+              precision: { km: 1, ft: 1 },
+              shapeOptions: { color: selectedColor }
+            },
+            rectangle: { shapeOptions: { color: selectedColor } },
+            circle: true,
+            marker: {
+              icon: divIcon({
+                html: renderToStaticMarkup(
+                  <i
+                    className='fa fa-map-marker-alt fa-3x'
+                    style={{ color: selectedColor }}
+                  />
+                )
+              })
+            },
+            circlemarker: false
+          }}
         />
       </FeatureGroup>
     </MapContainer>
