@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   TileLayer,
   FeatureGroup,
@@ -17,17 +17,19 @@ import {
 import { filteredDataOnDate } from '../redux/GeoJson/geoJsonSelectors'
 import { mapCenter } from '../Constants'
 
+let editableFG = null
+
 export const Map = ({ selectedDate, selectedColor }) => {
-  let _editableFG = null
   const geojsonData = useSelector(filteredDataOnDate)
   const dispatch = useDispatch()
+  const [map, setMap] = useState(null)
 
   const _onEdited = (e) => {
     let numEdited = 0
 
     e.layers.eachLayer((layer) => {
       // сохраняем индексы редактированных слоёв для добавления свойств
-      console.log(layer)
+      // console.log(layer)
       numEdited += 1
     })
 
@@ -39,25 +41,13 @@ export const Map = ({ selectedDate, selectedColor }) => {
   const _onCreated = (e) => {
     console.log(e)
 
-    // polyline, polygon, rectangle, circle (???), marker
+    // polyline, polygon, rectangle, circle (???), marker (???)
     let type = e.layerType
 
-    if (type === 'marker') {
-      console.log('_onCreated: marker created', e)
-    } else {
-      console.log('_onCreated: something else created:', type, e)
-    }
-
-    _onChange('created')
+    _onChange('created', type)
   }
 
-  const _onDeleted = (e) => {
-    let numDeleted = 0
-    e.layers.eachLayer(() => {
-      numDeleted += 1
-    })
-    console.log(`onDeleted: removed ${numDeleted} layers`, e)
-
+  const _onDeleted = () => {
     _onChange('deleted')
   }
 
@@ -82,40 +72,69 @@ export const Map = ({ selectedDate, selectedColor }) => {
   }
 
   const _onFeatureGroupReady = (reactFGref) => {
-    console.log('load', geojsonData ? JSON.parse(geojsonData) : null)
-    let leafletGeoJSON = new L.GeoJSON(
-      geojsonData ? JSON.parse(geojsonData) : null
-    )
+    let parsedGeoJSON = geojsonData ? JSON.parse(geojsonData) : null
+    console.log('load', parsedGeoJSON)
+    let leafletGeoJSON = new L.GeoJSON(parsedGeoJSON)
 
-    let leafletFG = reactFGref
-
-    if (!leafletFG) {
+    if (!reactFGref || !geojsonData) {
       return
     }
 
-    _editableFG = reactFGref
+    // сохраняем ссылку на компонент
+    editableFG = reactFGref
 
-    _editableFG.clearLayers()
+    reactFGref.clearLayers()
+
+    let index = 0
 
     leafletGeoJSON.eachLayer((layer) => {
-      // добавить стилизацию слоёв в GeoJSON
-      console.log(layer.options)
-      leafletFG.addLayer(layer)
+      // добавляем стилизацию слоёв в GeoJSON
+      console.log(layer)
+      let color = parsedGeoJSON.features[index].properties?.color
+      // в случае polyline или polygon меняем цвет
+      if (layer?.options?.color && color) {
+        layer.options.color = color
+      }
+      // в случае point меняем иконку и цвет
+      else if (layer?.options?.icon && color) {
+      }
+      reactFGref.addLayer(layer)
+      index++
     })
 
-    _editableFG = reactFGref
+    // L.geoJson(parsedGeoJSON, {
+    //   pointToLayer: function (feature, latlng) {
+    //     console.log(latlng, feature)
+    //     // преобразование маркера
+    //     return L.marker(latlng, {
+    //       icon: divIcon({
+    //         html: renderToStaticMarkup(
+    //           <i
+    //             className='fa fa-map-marker-alt fa-3x'
+    //             style={{ color: '#FF0000' }}
+    //           />
+    //         )
+    //       })
+    //     })
+    //   }
+    // }).addTo(map)
   }
 
   // этот метод вызывается после любого изменения данных
-  const _onChange = (type) => {
-    // получаем тип события
-    console.log(type)
+  const _onChange = (type, layerType) => {
+    // получаем тип события и тип слоя
+    console.log(type, layerType)
 
     // получаем последние данные
-    const geojsonData = _editableFG.toGeoJSON()
+    const geojsonData = editableFG.toGeoJSON()
     console.log('geoJson', geojsonData)
 
     // редактируем их в соответствии с выбранными настройками
+    if (type === 'created') {
+      // при добавлении элемента, добавляем ему свойство цвета
+      geojsonData.features[geojsonData.features.length - 1].properties.color =
+        selectedColor
+    }
 
     // сохраняем измененные данные
     dispatch(
@@ -132,7 +151,12 @@ export const Map = ({ selectedDate, selectedColor }) => {
   }, [selectedDate])
 
   return (
-    <MapContainer className={'map'} center={mapCenter} zoom={6}>
+    <MapContainer
+      className={'map'}
+      center={mapCenter}
+      zoom={6}
+      whenCreated={setMap}
+    >
       <LayersControl position='topright'>
         <LayersControl.BaseLayer
           checked={false}
@@ -155,10 +179,7 @@ export const Map = ({ selectedDate, selectedColor }) => {
           />
         </LayersControl.BaseLayer>
       </LayersControl>
-      <FeatureGroup
-        ref={(item) => _onFeatureGroupReady(item)}
-        // pathOptions={{ color: 'red' }}
-      >
+      <FeatureGroup ref={(item) => _onFeatureGroupReady(item)}>
         <EditControl
           position='topleft'
           onEdited={_onEdited}
