@@ -1,22 +1,17 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import {useDispatch, useSelector} from "react-redux";
 import {colorPickerSelector} from "../redux/ColorPicker/colorPickerSelector";
-import {changeColor, getColors, saveColor} from "../redux/ColorPicker/colorPickerAction";
+import {changeColor, getColors, saveColor, saveStateColors} from "../redux/ColorPicker/colorPickerAction";
 
 export const ColorPicker = ({selectedColor, setSelectedColor}) => {
 
    const colors = useSelector(colorPickerSelector)
    const dispatch = useDispatch()
 
-   const onChange = (id, value, name, e) => {
-      console.log(id, value, name, e)
-      // dispatch(changeColor(id, value, name))
-   }
+   const saveColors = () => dispatch(saveStateColors(colors))
 
-   const saveSelectedColor = (e) => {
+   const saveSelectedColor = (e) => setSelectedColor(e.target.value)
 
-      setSelectedColor(e.target.value)
-   }
 
    useEffect(() => {
       dispatch(getColors())
@@ -26,10 +21,22 @@ export const ColorPicker = ({selectedColor, setSelectedColor}) => {
      <div style={{padding: 10}}>
         {colors && colors.map((item, i) => (
           <div key={item.id}>
-             <input type='color' value={item.value} onChange={(e) => onChange(item.id, e.target.value, item.name, e)}/>
+             <input
+               type='color' value={item.value}
+               onChange={(e) => dispatch(changeColor([...colors.map(color => {
+                if(color.id === item.id){
+                   return {id: item.id, name: item.name, value: e.target.value}
+                }
+                return color
+             })]))}/>
              <input type="radio" name={'colorPicker'} defaultChecked={i===0} value={item.value} onChange={(e)=>saveSelectedColor(e)}/>
           </div>
         ))}
+        <button
+         onClick={saveColors}
+        >
+           Сохарнить изменения
+        </button>
      </div>
    )
 }

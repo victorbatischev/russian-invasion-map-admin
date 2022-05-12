@@ -1,4 +1,4 @@
-import {SAVE_COLOR, SET_COLOR} from "./colorPickerConstants";
+import {CHANGE_COLOR, SET_COLOR} from "./colorPickerConstants";
 
 let initialState = {
    color: null,
@@ -12,11 +12,11 @@ export const colorPickerReducer = (state = initialState, action) => {
             ...state,
             colors: action.payload
          }
-      case SAVE_COLOR:
+      case CHANGE_COLOR:
 
          return {
             ...state,
-            color: action.color
+            colors: action.colors
          }
       default:
          return state

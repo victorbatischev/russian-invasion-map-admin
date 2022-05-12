@@ -1,12 +1,12 @@
 import axios from 'axios'
-import {SAVE_COLOR, SET_COLOR} from "./colorPickerConstants";
+import {CHANGE_COLOR, SET_COLOR} from "./colorPickerConstants";
 
 export const setColor = (data) => ({
    type: SET_COLOR,
    payload: data
 })
 
-export const saveColor = (color) => ({type: SAVE_COLOR, color})
+export const changeColor = (colors) => ({type: CHANGE_COLOR, colors})
 
 export const getColors = () => async (dispatch) => {
    try {
@@ -19,13 +19,24 @@ export const getColors = () => async (dispatch) => {
    }
 }
 
-export const changeColor = (id, value, name) => async () => {
+export const setChangeColor = (id, value, name) => async () => {
    try {
-      await axios.post(`${process.env.REACT_APP_API_URL}/color/set-colors/`, {
+      await axios.post(`${process.env.REACT_APP_API_URL}/color/set-color/`, {
          id: id,
          value: value,
          name: name
       })
+   } catch (e) {
+      console.log(e)
+   }
+}
+
+export const saveStateColors = (colors) => async () => {
+   try {
+      await axios.post(`${process.env.REACT_APP_API_URL}/color/set-colors`, {
+         colors : colors
+      })
+      alert("Изменения сохранены!")
    } catch (e) {
       console.log(e)
    }
