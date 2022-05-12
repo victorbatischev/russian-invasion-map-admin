@@ -7,19 +7,19 @@ import { nowDate, defaultColor } from './Constants'
 
 const App = () => {
   const [date, setDate] = useLocalStorage('selectedDate', nowDate)
-  const [color, setColor] = useLocalStorage('selectedColor', defaultColor)
+  const [selectedColor, setSelectedColor] = useLocalStorage('selectedColor', null)
 
   useEffect(() => {
     setDate(nowDate)
-    setColor(defaultColor) // eslint-disable-next-line
+     //setSelectedColor(defaultColor)
   }, [])
 
   return (
     <div className={'App'}>
-      <Map selectedDate={date} selectedColor={color} />
+      <Map selectedDate={date} selectedColor={selectedColor}/>
       <div style={{ display: 'flex', flexDirection: 'column', width: 200 }}>
         <Calendar date={date} setDate={setDate} />
-        <ColorPicker color={color} setColor={setColor} />
+        <ColorPicker selectedColor={selectedColor} setSelectedColor={setSelectedColor}/>
       </div>
     </div>
   )

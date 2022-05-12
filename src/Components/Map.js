@@ -16,6 +16,7 @@ import {
 } from '../redux/GeoJson/geoJsonAction'
 import { filteredDataOnDate } from '../redux/GeoJson/geoJsonSelectors'
 import { mapCenter } from '../Constants'
+import {saveColorSelector} from "../redux/ColorPicker/colorPickerSelector";
 
 let editableFG = null
 
@@ -23,6 +24,8 @@ export const Map = ({ selectedDate, selectedColor }) => {
   const geojsonData = useSelector(filteredDataOnDate)
   const dispatch = useDispatch()
   const [map, setMap] = useState(null)
+
+  console.log(selectedColor)
 
   const _onEdited = (e) => {
     let numEdited = 0
@@ -79,18 +82,15 @@ export const Map = ({ selectedDate, selectedColor }) => {
     if (!reactFGref || !geojsonData) {
       return
     }
-
+    let index = 0
     // сохраняем ссылку на компонент
     editableFG = reactFGref
 
     reactFGref.clearLayers()
 
-    let index = 0
-
     leafletGeoJSON.eachLayer((layer) => {
       // добавляем стилизацию слоёв в GeoJSON
-      console.log(layer)
-      let color = parsedGeoJSON.features[index].properties?.color
+      let color = parsedGeoJSON.features[index].properties?.fill
       // в случае polyline или polygon меняем цвет
       if (layer?.options?.color && color) {
         layer.options.color = color
@@ -132,8 +132,8 @@ export const Map = ({ selectedDate, selectedColor }) => {
     // редактируем их в соответствии с выбранными настройками
     if (type === 'created') {
       // при добавлении элемента, добавляем ему свойство цвета
-      geojsonData.features[geojsonData.features.length - 1].properties.color =
-        selectedColor
+      console.log(selectedColor, "fcsdf")
+      geojsonData.features[geojsonData.features.length - 1].properties.fill = JSON.parse(localStorage.getItem('selectedColor'))
     }
 
     // сохраняем измененные данные
@@ -148,7 +148,7 @@ export const Map = ({ selectedDate, selectedColor }) => {
   useEffect(() => {
     // при монтировании компонента, запрашиваем данные за выбранную дату
     dispatch(getActualGeoJson(selectedDate))
-  }, [selectedDate])
+  }, [selectedDate, selectedColor])
 
   return (
     <MapContainer
