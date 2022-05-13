@@ -22,7 +22,6 @@ let editableFG = null
 export const Map = ({ selectedDate, selectedColor }) => {
   const geojsonData = useSelector(filteredDataOnDate)
   const dispatch = useDispatch()
-  const [map, setMap] = useState(null)
 
   const _onEdited = (e) => {
     let numEdited = 0
@@ -92,29 +91,9 @@ export const Map = ({ selectedDate, selectedColor }) => {
       if (layer?.options?.color && color) {
         layer.options.color = color
       }
-      // в случае point меняем иконку и цвет
-      else if (layer?.options?.icon && color) {
-      }
       reactFGref.addLayer(layer)
       index++
     })
-
-    // L.geoJson(parsedGeoJSON, {
-    //   pointToLayer: function (feature, latlng) {
-    //     console.log(latlng, feature)
-    //     // преобразование маркера
-    //     return L.marker(latlng, {
-    //       icon: divIcon({
-    //         html: renderToStaticMarkup(
-    //           <i
-    //             className='fa fa-map-marker-alt fa-3x'
-    //             style={{ color: '#FF0000' }}
-    //           />
-    //         )
-    //       })
-    //     })
-    //   }
-    // }).addTo(map)
   }
 
   // этот метод вызывается после любого изменения данных
@@ -148,12 +127,7 @@ export const Map = ({ selectedDate, selectedColor }) => {
   }, [selectedDate, selectedColor])
 
   return (
-    <MapContainer
-      className={'map'}
-      center={mapCenter}
-      zoom={6}
-      whenCreated={setMap}
-    >
+    <MapContainer className={'map'} center={mapCenter} zoom={6}>
       <LayersControl position='topright'>
         <LayersControl.BaseLayer
           checked={false}
