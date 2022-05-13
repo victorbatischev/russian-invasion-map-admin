@@ -11,7 +11,7 @@ export const ColorPicker = ({selectedColor, setSelectedColor}) => {
    const saveColors = () => dispatch(saveStateColors(colors))
 
    const saveSelectedColor = (e) => setSelectedColor(e.target.value)
-
+   console.log(selectedColor)
 
    useEffect(() => {
       dispatch(getColors())
@@ -29,7 +29,13 @@ export const ColorPicker = ({selectedColor, setSelectedColor}) => {
                 }
                 return color
              })]))}/>
-             <input type="radio" name={'colorPicker'} defaultChecked={i===0} value={item.value} onChange={(e)=>saveSelectedColor(e)}/>
+             <input
+               type="radio"
+               name={'colorPicker'}
+               defaultChecked={item.value === selectedColor}
+               value={item.value}
+               onChange={(e)=>saveSelectedColor(e)}
+             />
           </div>
         ))}
         <button

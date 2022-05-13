@@ -79,7 +79,7 @@ export const Map = ({ selectedDate, selectedColor }) => {
     console.log('load', parsedGeoJSON)
     let leafletGeoJSON = new L.GeoJSON(parsedGeoJSON)
 
-    if (!reactFGref || !geojsonData) {
+    if (!reactFGref) {
       return
     }
     let index = 0

@@ -7,7 +7,7 @@ import { nowDate, defaultColor } from './Constants'
 
 const App = () => {
   const [date, setDate] = useLocalStorage('selectedDate', nowDate)
-  const [selectedColor, setSelectedColor] = useLocalStorage('selectedColor', null)
+  const [selectedColor, setSelectedColor] = useLocalStorage('selectedColor', defaultColor)
 
   useEffect(() => {
     setDate(nowDate)
