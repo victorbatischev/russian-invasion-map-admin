@@ -5,6 +5,7 @@ import {changeColor, getColors, saveColor, saveStateColors} from "../redux/Color
 
 export const ColorPicker = ({selectedColor, setSelectedColor}) => {
 
+   const [disabledButton, setDisabledButton] = useState(true)
    const colors = useSelector(colorPickerSelector)
    const dispatch = useDispatch()
 
@@ -23,12 +24,16 @@ export const ColorPicker = ({selectedColor, setSelectedColor}) => {
           <div key={item.id}>
              <input
                type='color' value={item.value}
-               onChange={(e) => dispatch(changeColor([...colors.map(color => {
-                if(color.id === item.id){
-                   return {id: item.id, name: item.name, value: e.target.value}
-                }
-                return color
-             })]))}/>
+               onChange={(e) => {
+                  setDisabledButton(false)
+                  dispatch(changeColor([...colors.map(color => {
+                     if (color.id === item.id) {
+                        return {id: item.id, name: item.name, value: e.target.value}
+                     }
+                     return color
+                  })]))
+               }
+               }/>
              <input
                type="radio"
                name={'colorPicker'}
@@ -40,8 +45,9 @@ export const ColorPicker = ({selectedColor, setSelectedColor}) => {
         ))}
         <button
          onClick={saveColors}
+         disabled={disabledButton}
         >
-           Сохарнить изменения
+           Сохранить цвета
         </button>
      </div>
    )
