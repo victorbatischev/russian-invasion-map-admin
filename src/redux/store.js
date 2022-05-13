@@ -1,8 +1,9 @@
 import { applyMiddleware, combineReducers, compose } from 'redux'
 import { createStore } from 'redux'
-import { geoJsonReducer } from './GeoJson/geoJsonReducer'
 import thunk from 'redux-thunk'
-import {colorPickerReducer} from "./ColorPicker/colorPickerReduser";
+
+import { geoJsonReducer } from './GeoJson/geoJsonReducer'
+import { colorPickerReducer } from './ColorPicker/colorPickerReducer'
 
 let reducers = combineReducers({
   geoJson: geoJsonReducer,

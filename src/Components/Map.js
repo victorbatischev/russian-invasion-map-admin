@@ -16,7 +16,6 @@ import {
 } from '../redux/GeoJson/geoJsonAction'
 import { filteredDataOnDate } from '../redux/GeoJson/geoJsonSelectors'
 import { mapCenter } from '../Constants'
-import {saveColorSelector} from "../redux/ColorPicker/colorPickerSelector";
 
 let editableFG = null
 
@@ -24,8 +23,6 @@ export const Map = ({ selectedDate, selectedColor }) => {
   const geojsonData = useSelector(filteredDataOnDate)
   const dispatch = useDispatch()
   const [map, setMap] = useState(null)
-
-  console.log(selectedColor)
 
   const _onEdited = (e) => {
     let numEdited = 0
@@ -132,8 +129,8 @@ export const Map = ({ selectedDate, selectedColor }) => {
     // редактируем их в соответствии с выбранными настройками
     if (type === 'created') {
       // при добавлении элемента, добавляем ему свойство цвета
-      console.log(selectedColor, "fcsdf")
-      geojsonData.features[geojsonData.features.length - 1].properties.fill = JSON.parse(localStorage.getItem('selectedColor'))
+      geojsonData.features[geojsonData.features.length - 1].properties.fill =
+        JSON.parse(localStorage.getItem('selectedColor'))
     }
 
     // сохраняем измененные данные

@@ -1,6 +1,6 @@
 export const colorPickerSelector = (state) => {
-   return state.colorPicker.colors
+  return state.colorPicker.colors
 }
 export const saveColorSelector = (state) => {
-   return state.colorPicker.color
+  return state.colorPicker.color
 }

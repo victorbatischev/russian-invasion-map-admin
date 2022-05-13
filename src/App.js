@@ -7,19 +7,24 @@ import { nowDate, defaultColor } from './Constants'
 
 const App = () => {
   const [date, setDate] = useLocalStorage('selectedDate', nowDate)
-  const [selectedColor, setSelectedColor] = useLocalStorage('selectedColor', defaultColor)
+  const [selectedColor, setSelectedColor] = useLocalStorage(
+    'selectedColor',
+    defaultColor
+  )
 
   useEffect(() => {
     setDate(nowDate)
-     //setSelectedColor(defaultColor)
   }, [])
 
   return (
     <div className={'App'}>
-      <Map selectedDate={date} selectedColor={selectedColor}/>
+      <Map selectedDate={date} selectedColor={selectedColor} />
       <div style={{ display: 'flex', flexDirection: 'column', width: 200 }}>
         <Calendar date={date} setDate={setDate} />
-        <ColorPicker selectedColor={selectedColor} setSelectedColor={setSelectedColor}/>
+        <ColorPicker
+          selectedColor={selectedColor}
+          setSelectedColor={setSelectedColor}
+        />
       </div>
     </div>
   )
