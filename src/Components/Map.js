@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import {
   TileLayer,
   FeatureGroup,
@@ -115,7 +115,9 @@ export const Map = ({ selectedDate, selectedColor }) => {
     // сохраняем измененные данные
     dispatch(
       setDataGeoJson(
-        JSON.parse(localStorage.getItem('selectedDate')).toLocaleString('sv-SE').substring(0, 10),
+        JSON.parse(localStorage.getItem('selectedDate'))
+          .toLocaleString('sv-SE')
+          .substring(0, 10),
         JSON.stringify(geojsonData)
       )
     )
@@ -123,7 +125,9 @@ export const Map = ({ selectedDate, selectedColor }) => {
 
   useEffect(() => {
     // при монтировании компонента, запрашиваем данные за выбранную дату
-    dispatch(getActualGeoJson(selectedDate.toLocaleString('sv-SE').substring(0, 10)))
+    dispatch(
+      getActualGeoJson(selectedDate.toLocaleString('sv-SE').substring(0, 10))
+    )
   }, [selectedDate, selectedColor])
 
   return (
