@@ -19,7 +19,7 @@ import { mapCenter } from '../Constants'
 
 let editableFG = null
 
-export const Map = ({ selectedDate, selectedColor }) => {
+export const Map = ({ selectedDate, selectedColor, mapRef }) => {
   const geojsonData = useSelector(filteredDataOnDate)
   const dispatch = useDispatch()
 
@@ -127,7 +127,9 @@ export const Map = ({ selectedDate, selectedColor }) => {
   }, [selectedDate, selectedColor])
 
   return (
-    <MapContainer className={'map'} center={mapCenter} zoom={6}>
+    <MapContainer className={'map'} center={mapCenter} zoom={6} whenCreated={(mapInstance) => {
+      mapRef.current = mapInstance
+    }}>
       <LayersControl position='topright'>
         <LayersControl.BaseLayer
           checked={false}
