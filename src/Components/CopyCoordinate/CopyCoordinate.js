@@ -1,5 +1,5 @@
-import React, {useEffect, useMemo, useState} from 'react';
-import L, {icon} from "leaflet"
+import React, {useMemo, useState} from 'react';
+import L from "leaflet"
 import './CopyCoordinate.css'
 import {Modal} from "../Modal/Modal";
 
@@ -25,7 +25,6 @@ export const CopyCoordinate = ({mapRef}) => {
 
 
    const addMarkerToMap = () => {
-      console.log(mapRef)
       setMarkerOnMap(true)
       setNewMarker(L.marker([
          (mapRef.current.getBounds()._northEast.lat + mapRef.current.getBounds()._southWest.lat) / 2,
