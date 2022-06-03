@@ -127,15 +127,20 @@ export const Map = ({ selectedDate, selectedColor, mapRef }) => {
     // при монтировании компонента, запрашиваем данные за выбранную дату
     dispatch(
       getActualGeoJson(selectedDate.toLocaleString('sv-SE').substring(0, 10))
-    )
+    ) // eslint-disable-next-line
   }, [selectedDate, selectedColor])
 
   return (
-    <MapContainer className={'map'} center={mapCenter} zoom={6} whenCreated={(mapInstance) => {
-      mapRef.current = mapInstance
-    }}>
+    <MapContainer
+      className={'map'}
+      center={mapCenter}
+      zoom={6}
+      whenCreated={(mapInstance) => {
+        mapRef.current = mapInstance
+      }}
+    >
       <LayersControl position='topright'>
-        <LayersControl.BaseLayer
+        {/* <LayersControl.BaseLayer
           checked={false}
           name='Esri WorldImagery'
           group='BaseLayers'
@@ -144,15 +149,25 @@ export const Map = ({ selectedDate, selectedColor, mapRef }) => {
             url='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png'
             attribution='&copy; <a href="Esri &mdash">Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community</a> contributors'
           />
-        </LayersControl.BaseLayer>
+        </LayersControl.BaseLayer> */}
         <LayersControl.BaseLayer
-          checked={true}
+          checked={false}
           name='OpenStreetMap'
           group='BaseLayers'
         >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+          />
+        </LayersControl.BaseLayer>
+        <LayersControl.BaseLayer
+          checked={true}
+          name='Mapbox'
+          group='BaseLayers'
+        >
+          <TileLayer
+            attribution='&copy; <a href="https://www.mapbox.com/about/maps/">Mapbox</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> | <a href="https://www.mapbox.com/map-feedback/"><b>Improve this map</b></a>'
+            url='https://api.mapbox.com/styles/v1/victorbyte/cl3yglzkr000114lpkrtdfo8y/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoidmljdG9yYnl0ZSIsImEiOiJjbDN5Y3Y5bm4wNmlyM3Btd3Q5M3IyYzJ4In0.-DuPfSA_dInLUba4GyDfpw'
           />
         </LayersControl.BaseLayer>
       </LayersControl>
