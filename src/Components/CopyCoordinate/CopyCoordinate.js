@@ -1,48 +1,56 @@
-import React, {useState} from 'react';
-import L, {Circle as polyline} from "leaflet"
-import {mapCenter} from "../Constants";
+import React, {useEffect, useMemo, useState} from 'react';
+import L, {icon} from "leaflet"
+import './CopyCoordinate.css'
+import {Modal} from "../Modal/Modal";
 
-export const copy = (text) => navigator.clipboard.writeText(text)
+export const copy = async (text) => await navigator.clipboard.writeText(text)
+
+export const markerIcon = new L.Icon({
+   iconUrl: require("../../assets/icons/marker.png"),
+   iconSize: [48, 48]
+})
 
 export const CopyCoordinate = ({mapRef}) => {
 
    const [markerOnMap, setMarkerOnMap] = useState(false)
    const [coordinates, setCoordinates] = useState([])
-   const markerIcon = new L.Icon({
-      iconUrl: require("../assets/icons/marker.png"),
-      iconSize: [48, 48]
-   })
+   const [modalActive, setModalActive] = useState(false)
+   const [newMarker, setNewMarker] = useState(null)
+
+   const ModalWindow = useMemo(() => {
+      return <Modal setActive={setModalActive} active={modalActive}>
+         <div>Координаты скопированы</div>
+      </Modal>
+   }, [modalActive])
+
 
    const addMarkerToMap = () => {
+      console.log(mapRef)
       setMarkerOnMap(true)
-      L.marker([
-        (mapRef.current.getBounds()._northEast.lat + mapRef.current.getBounds()._southWest.lat) / 2,
-        ( mapRef.current.getBounds()._northEast.lng + mapRef.current.getBounds()._southWest.lng) / 2
-      ], {
-         icon: markerIcon,
-         draggable: true
-      }).addTo(mapRef.current).on('dragend', copyCoordinatesInBuffer)
-      console.log(mapRef.current.getBounds())
-      console.log(mapRef.current.getBounds()._southWest)
-     console.log((mapRef.current.getBounds()._northEast.lat + mapRef.current.getBounds()._southWest.lat) / 2)
-      console.log(( mapRef.current.getBounds()._northEast.lng + mapRef.current.getBounds()._southWest.lng) / 2)
+      setNewMarker(L.marker([
+         (mapRef.current.getBounds()._northEast.lat + mapRef.current.getBounds()._southWest.lat) / 2,
+         (mapRef.current.getBounds()._northEast.lng + mapRef.current.getBounds()._southWest.lng) / 2
+      ], {icon: markerIcon, draggable: true}).addTo(mapRef.current).on('dragend', setCoordinatesInState))
    }
 
-   const copyCoordinatesInBuffer = (e) => {
-      for (let [key, value] of Object.entries(e.target._latlng)) {
-         setCoordinates(prev=>[...prev, value])
-      }
-   }
+   const setCoordinatesInState = (e) => setCoordinates([e.target._latlng.lat, e.target._latlng.lng])
 
-   const sd = () => {
-      copy(coordinates)
+   const copyCoordinatesInBuffer = () => {
+      coordinates.length ? copy(coordinates) : copy([
+         (mapRef.current.getBounds()._northEast.lat + mapRef.current.getBounds()._southWest.lat) / 2,
+         (mapRef.current.getBounds()._northEast.lng + mapRef.current.getBounds()._southWest.lng) / 2
+      ])
+      setModalActive(true)
       setCoordinates([])
+      setMarkerOnMap(false)
+      newMarker.remove()
    }
 
    return (
      <div>
-        {!markerOnMap &&<button onClick={addMarkerToMap}>Поставить маркер</button>}
-        {markerOnMap && <button onClick={sd}>Скопировать координаты</button>}
+        {!markerOnMap && <button className={'button'} onClick={addMarkerToMap}>Определить координаты</button>}
+        {markerOnMap && <button className={'button'} onClick={copyCoordinatesInBuffer}>Скопировать координаты</button>}
+        {ModalWindow}
      </div>
    )
 };

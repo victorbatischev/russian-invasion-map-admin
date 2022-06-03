@@ -4,7 +4,7 @@ import { Calendar } from './Components/Calendar/Calendar'
 import { ColorPicker } from './Components/ColorPicker'
 import { useLocalStorage } from './hooks/useLocalStorage'
 import { nowDate, defaultColor } from './Constants'
-import {CopyCoordinate} from "./Components/CopyCoordinate";
+import {CopyCoordinate} from "./Components/CopyCoordinate/CopyCoordinate";
 
 const App = () => {
 
