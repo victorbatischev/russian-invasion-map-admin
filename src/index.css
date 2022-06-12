@@ -16,7 +16,12 @@ code {
 .sr-only {
   display: none;
 }
-
+.root{
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: #efeeff;
+}
 .App {
   height: 100vh;
   position: relative;

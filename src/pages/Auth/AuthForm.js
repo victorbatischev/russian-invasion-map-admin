@@ -1,8 +1,10 @@
 import React, {useEffect} from 'react';
 import {Field, Form, Formik} from "formik";
 import {useNavigate} from "react-router-dom";
+import "./authForm.css"
+import {Navigate} from "react-router-dom";
 
-function validatePassword(value) {
+const validatePassword = (value) => {
    let error;
    if (value !== 'qwerty123') {
       error = 'Не верный пароль';
@@ -10,7 +12,7 @@ function validatePassword(value) {
    return error;
 }
 
-function validateUsername(value) {
+const validateUsername = (value) => {
    let error;
    if (value !== 'admin') {
       error = 'Не верный логин';
@@ -20,19 +22,19 @@ function validateUsername(value) {
 
 export const AuthForm = () => {
 
-   let navigate = useNavigate();
+   const navigate = useNavigate();
 
    const submit = () => {
       localStorage.setItem('auth', JSON.stringify(true))
-      navigate('/');
+      navigate('/')
    }
+   let a = JSON.parse(localStorage.getItem('auth'))
 
-   console.log('render form')
-
+   if (a) return <Navigate to="/" />
 
    return (
-     <div>
-        <h1>Авторизация</h1>
+     <div className={'auth'}>
+        <h1 className={'auth__title'}>Авторизация</h1>
         <Formik
           initialValues={{
              username: '',
@@ -41,14 +43,14 @@ export const AuthForm = () => {
           onSubmit={()=>submit()}
         >
            {({ errors, touched, isValidating }) => (
-             <Form>
-                <Field name="username" validate={validateUsername} />
-                {errors.username && touched.username && <div>{errors.username}</div>}
+             <Form className={'auth__form'}>
+                <Field className={'auth__field'} name="username" validate={validateUsername} placeholder={'Логин'}/>
+                {errors.username && touched.username && <div className={'auth__error'}>{errors.username}</div>}
 
-                <Field type={'password'} name="password" validate={validatePassword} />
-                {errors.password && touched.password && <div>{errors.password}</div>}
+                <Field className={'auth__field'} type={'password'} name="password" validate={validatePassword} placeholder={'Пароль'}/>
+                {errors.password && touched.password && <div className={'auth__error'}>{errors.password}</div>}
 
-                <button type="submit">Submit</button>
+                <button className={'auth__button'} type="submit">Войти</button>
              </Form>
            )}
         </Formik>
