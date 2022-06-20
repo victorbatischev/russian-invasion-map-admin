@@ -1,4 +1,4 @@
-import { SET_GEO_JSON } from './geoJsonConsts'
+import { SET_GEO_JSON } from './geoJsonConstants'
 
 let initialState = {
   storeGeoJson: null

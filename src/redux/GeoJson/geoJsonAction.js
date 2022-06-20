@@ -1,4 +1,4 @@
-import { SET_GEO_JSON } from './geoJsonConsts'
+import { SET_GEO_JSON } from './geoJsonConstants'
 import axios from 'axios'
 
 export const setGeoJson = (geoJsonData) => ({
