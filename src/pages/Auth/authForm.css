@@ -17,10 +17,14 @@
 .auth__field {
   outline: none;
   border: 1px solid #00103e;
-  color: #f2f5ff;
-  background: #000e40;
   padding: 10px 7px;
   width: 30%;
+}
+.auth__field:focus{
+  border:#00103e 1px solid;
+  box-shadow: 0 0 5px #0f2165;
+  -webkit-box-shadow: 0 0 5px #0f2165;
+  -moz-box-shadow: 0 0 5px #0f2165;
 }
 .auth__button {
   display: flex;
