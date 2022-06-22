@@ -1,9 +1,20 @@
 import React from 'react'
+import { Link } from "react-router-dom";
+import './error.css'
 
 export const PageError = () => {
-  return (
-    <div>
-      <h1 style={{ textAlign: 'center' }}>404 Такой страницы не существует</h1>
-    </div>
-  )
+   return (
+     <div>
+        <div className="bubble" />
+        <div className="bubble" />
+        <div className="bubble" />
+        <div className="bubble" />
+        <div className="bubble" />
+        <div className="main">
+           <h1 className={'main__head'}>404</h1>
+           <p>Такой странцицы не существует</p>
+           <Link to={'/admin'} className='main__link'>Вернутья на главную</Link>
+        </div>
+     </div>
+   )
 }

@@ -1,16 +1,15 @@
-import React, {useState} from 'react'
+import React, {useContext, useState} from 'react'
 import {Field, Form, Formik} from 'formik'
 import {useNavigate} from 'react-router-dom'
 import './authForm.css'
 import {Navigate} from 'react-router-dom'
+import axios from "axios";
 
-export const AuthForm = () => {
+export const AuthForm = ({isTokenAlive,setExpiresAt, setExistingToken}) => {
    const navigate = useNavigate()
    const [errors, setErrors] = useState(null)
 
-   let isAuthorized = JSON.parse(localStorage.getItem('auth'))
-
-   if (isAuthorized) return <Navigate to='/admin'/>
+   if (isTokenAlive) return <Navigate to='/admin'/>
 
    return (
      <div className={'auth'}>
@@ -21,24 +20,23 @@ export const AuthForm = () => {
              password: ''
           }}
           onSubmit={async (values) => {
-             if (values.username !== 'admin' || values.password !== '1234') {
-                setErrors('Не верный логин или пароль')
-             } else {
-                localStorage.setItem('auth', JSON.stringify(true))
+             try {
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/auth/login?username=${values.username}&password=${values.password}`)
+                setExistingToken(response.data.data.access_token)
+                setExpiresAt(response.data.data.access_token_expired_at)
                 navigate('/admin')
+             }
+             catch (e) {
+                setErrors('Не верный логин или пароль')
              }
           }}
         >
-
            <Form className={'auth__form'}>
               <Field
                 className={'auth__field'}
                 name='username'
                 placeholder={'Логин'}
               />
-              {/*{errors.username && (*/}
-              {/*  <div className={'auth__error'}>{errors.username}</div>*/}
-              {/*)}*/}
               <Field
                 className={'auth__field'}
                 type={'password'}

@@ -1,10 +1,10 @@
 import React, { useRef } from 'react'
-import { Map } from '../Components/Map'
-import { Calendar } from '../Components/Calendar/Calendar'
-import { ColorPicker } from '../Components/ColorPicker'
-import { CopyCoordinate } from '../Components/CopyCoordinate/CopyCoordinate'
-import { useLocalStorage } from '../hooks/useLocalStorage'
-import { defaultColor } from '../Constants'
+import { Map } from '../../Components/Map'
+import { Calendar } from '../../Components/Calendar/Calendar'
+import { ColorPicker } from '../../Components/ColorPicker'
+import { CopyCoordinate } from '../../Components/CopyCoordinate/CopyCoordinate'
+import { useLocalStorage } from '../../hooks/useLocalStorage'
+import { defaultColor } from '../../Constants'
 
 export const AdminPage = () => {
   const mapRef = useRef()

@@ -6,6 +6,7 @@
 }
 .auth__title {
   font-family: cursive;
+  font-size: 45px;
 }
 .auth__form {
   display: flex;
@@ -17,8 +18,9 @@
 .auth__field {
   outline: none;
   border: 1px solid #00103e;
-  padding: 10px 7px;
-  width: 30%;
+  padding: 17px 7px;
+  width: 44%;
+  font-size: 16px;
 }
 .auth__field:focus{
   border:#00103e 1px solid;
@@ -30,14 +32,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 10px 7px;
+  padding: 17px 7px;
   border: 1px solid #00103e;
   color: #f2f5ff;
   background: #000e40;
   outline: none;
-  width: 31.5%;
+  width: 45.5%;
   cursor: pointer;
   transition: 0.3s all ease;
+  font-size: 16px;
 }
 .auth__button:hover {
   color: #000e40;
@@ -46,6 +49,6 @@
 .auth__error {
   color: red;
   text-align: left;
-  width: 30%;
+  width: 45%;
   font-weight: 700;
 }
