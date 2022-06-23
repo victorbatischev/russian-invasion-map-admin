@@ -22,12 +22,15 @@ export const Calendar = ({ date, setDate }) => {
 
   const changeDate = (dates) => setDate(dates)
 
-  useEffect(async () => {
-    const response = await axios.get(
-      `${process.env.REACT_APP_API_URL}/map/get-changes`,
-    )
-    setActiveDates(response.data)
-    response.data.forEach((item) => Date.parse(item))
+  useEffect(() => {
+    async function getActiveDates() {
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/map/get-changes`
+      )
+      setActiveDates(response.data)
+    }
+
+    getActiveDates()
   }, [])
 
   return (

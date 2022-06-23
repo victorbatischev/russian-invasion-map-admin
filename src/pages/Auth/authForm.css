@@ -5,8 +5,7 @@
   text-align: center;
 }
 .auth__title {
-  font-family: cursive;
-  font-size: 45px;
+  font-size: 35px;
 }
 .auth__form {
   display: flex;
@@ -17,14 +16,12 @@
 }
 .auth__field {
   outline: none;
-  border: 1px solid #00103e;
   padding: 17px 7px;
-  width: 44%;
+  width: 262px;
   font-size: 16px;
 }
-.auth__field:focus{
-  border:#00103e 1px solid;
-  box-shadow: 0 0 5px #0f2165;
+.auth__field:focus {
+  box-shadow: 0 0 5px #8b8b8c;
   -webkit-box-shadow: 0 0 5px #0f2165;
   -moz-box-shadow: 0 0 5px #0f2165;
 }
@@ -37,7 +34,7 @@
   color: #f2f5ff;
   background: #000e40;
   outline: none;
-  width: 45.5%;
+  width: 280px;
   cursor: pointer;
   transition: 0.3s all ease;
   font-size: 16px;

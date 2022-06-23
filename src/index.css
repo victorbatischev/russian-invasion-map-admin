@@ -1,7 +1,11 @@
-html, body {
+html,
+body {
   height: 100vh;
 }
-html:before, body:before, html:after, body:after {
+html:before,
+body:before,
+html:after,
+body:after {
   content: '';
   background: linear-gradient(#203075, #233581);
   border-radius: 50%;
@@ -10,7 +14,8 @@ html:before, body:before, html:after, body:after {
   left: 50%;
   transform: translate(-50%, -50%);
 }
-html:before, body:before {
+html:before,
+body:before {
   background: linear-gradient(#233581, #203075);
 }
 html {
@@ -33,7 +38,7 @@ body {
   align-items: center;
   color: #fff;
   font-family: 'Varela Round', Sans-serif;
-  text-shadow: 0 30px 10px rgba(0, 0, 0, .15);
+  text-shadow: 0 30px 10px rgba(0, 0, 0, 0.15);
   margin: 0;
 }
 body:before {
@@ -46,7 +51,7 @@ body:after {
   width: 40vmax;
   z-index: -1;
 }
-#root{
+#root {
   width: 100%;
 }
 code {

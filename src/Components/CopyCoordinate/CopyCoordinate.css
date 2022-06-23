@@ -1,9 +1,7 @@
 .button {
-  width: 50%;
   border: 1px solid black;
   background: #fff;
   outline: none;
-  /* padding: 10px 15px; */
   height: 34px;
   display: flex;
   align-items: center;
@@ -12,6 +10,7 @@
   transition: 0.3s all ease;
   margin: 0 10px;
 }
+
 .button:hover {
   background: #585656;
   color: #fff;

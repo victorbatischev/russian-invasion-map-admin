@@ -19,7 +19,7 @@ export const CopyCoordinate = ({ mapRef }) => {
   const ModalWindow = useMemo(() => {
     return (
       <Modal setActive={setModalActive} active={modalActive}>
-        <div>Координаты скопированы</div>
+        <div>Координаты скопированы в буфер обмена!</div>
       </Modal>
     )
   }, [modalActive])
@@ -64,7 +64,7 @@ export const CopyCoordinate = ({ mapRef }) => {
   }
 
   return (
-    <div>
+    <div style={{ paddingTop: 10 }}>
       {!markerOnMap && (
         <button className={'button'} onClick={addMarkerToMap}>
           Определить координаты
