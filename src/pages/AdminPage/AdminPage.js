@@ -22,7 +22,7 @@ export const AdminPage = () => {
   return (
     <div className={'App'}>
       <Map selectedDate={date} selectedColor={selectedColor} mapRef={mapRef} />
-      <div style={{ width: 220 }}>
+      <div style={{ width: 300 }}>
         <Calendar date={date} setDate={setDate} />
         <ColorPicker
           selectedColor={selectedColor}

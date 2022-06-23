@@ -39,7 +39,7 @@ export const ColorPicker = ({ selectedColor, setSelectedColor }) => {
   }, [])
 
   return (
-    <div style={{ padding: 10 }}>
+    <div style={{ display: 'flex', flexWrap: 'wrap', padding: 10 }}>
       {colors &&
         colors.map((item, i) => (
           <div key={item.id} style={{ padding: 3 }}>
@@ -47,7 +47,7 @@ export const ColorPicker = ({ selectedColor, setSelectedColor }) => {
               type='color'
               value={item.value}
               onChange={(e) => selectColor(e, item)}
-              style={{ width: 100 }}
+              style={{ width: 60 }}
             />
             <input
               type='radio'

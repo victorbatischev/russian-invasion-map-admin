@@ -29,7 +29,7 @@ export const Calendar = ({ date, setDate }) => {
       )
       setActiveDates(response.data)
     }
-
+    
     getActiveDates()
   }, [])
 
