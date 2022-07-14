@@ -34,6 +34,8 @@ export const setDataGeoJson = (date, json_data) => async () => {
       }
     )
   } catch (e) {
+    localStorage.removeItem('auth_token')
+    localStorage.removeItem('access_token_expired_at')
     console.log(e)
   }
 }
